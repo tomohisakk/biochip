@@ -12,7 +12,7 @@ if __name__ == '__main__':
 					 input_dims=env.observation_space.shape,
 					 n_actions=4, mem_size=50000, eps_min=0,
 					 batch_size=32, replace=10000, eps_dec=5e-8,
-					 chkpt_dir='models/', env_name='8x8_rand2')
+					 chkpt_dir='models/', env_name='ngames_batchsize_umove_reward_July29')
 
 	agent.load_models()
 	n_modules = 2

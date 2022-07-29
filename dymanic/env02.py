@@ -223,7 +223,7 @@ class MEDAEnv():
 			return
 		elif self._is_touching_module(next_p, action):
 			return 
-		elif random.randint(1, 10) == 5:
+		elif random.randint(1, 10) == 5 and next_p[0]!=self.goal[0] and next_p[1]!=self.goal[1]:
 			self.m_usage[next_p[1]][next_p[0]] += 1
 			return
 		else:
