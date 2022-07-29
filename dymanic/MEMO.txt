@@ -1,0 +1,91 @@
+## This file is a memo of 3 dimentional learning
+
+# env_3dim.py
+- There are three layers like bellow
+0: indicates modules and degraed information of cells
+1: the goal state
+2: the state of an agent
+
+- The agent can move 8 directions like belloow
+				0
+			7		4
+		3		A		1
+			6		5
+				2
+The initial state of an agent is (0, 0), and the goal is (width of biochip, height of biochip)
+Set the max_step, using to reset environment if a step count is bigger than max_step 
+
+- step function
+Args:
+	action: the action an agent chose
+Return:
+	obs: the observation after an action
+	reward: the reward an agent got like bellow
+			1: if the next state is the goal
+			-0.3: if the distance from the next state to the goal is same to the previous one
+			0.5: if the next state is clsoser than previous one
+			-0.8: if the next state is farther than previous one
+	done: is a game finished(e.g., the count of games is bigger than max size or the state of an agent is the goal state)
+
+- reset function
+Return:
+	obs: obsercation after all parameters reseted
+1. reset the goal and the start state of an agent
+2. reset the degregation of cells
+3. set the modules to new biochip
+4. compute the distance from all states to the goal
+
+
+# network_3dim.py
+- Network model is like bellow
+nn.Conv2d(channel of input, filter number, carnel size, stride)
+
+- compute_conv_output_dims function
+Args
+	indut_dims: the shape of the input object (i.e., (1, width, height))
+
+- forward function
+Args
+	observation: the observation before learning
+Return
+	action: the action returned from the network
+
+- save_checkpoint function + load_checkpoint function
+save and load the models to the flie
+
+
+# agent_3dim.py
+- choose_action function
+Args
+	observation: the observation before learning
+Return
+	action: the action an agent will choose
+
+- store_transition function
+Args
+	state, action, reward, state_, done: infomations to input to memory
+
+- decrement_epsilon
+	decrement epsilon if epsilon is bigger than eps_min
+
+- save_model and load_model functions
+	save and load if in the check points
+
+- learn function
+1. initialize optimizer
+2. calicurate the loss of both memory's one and eval's one
+3. evaluate each loss
+4. gain a counter of steps and decrement epsilon
+
+
+# momory_3dim.py
+- store_transition function
+Args:
+	state, action, reward, state_ and done
+input state, action, reward, next state and done flag to a memory list
+
+- sample_buffer function
+Args:
+	batch_size: the batch size of learning
+Return:
+	a list of states, actions, rewards, states_ and dones
