@@ -1,0 +1,3 @@
+## Installs
+-   pytorch
+-   matplotlib

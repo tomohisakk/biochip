@@ -54,7 +54,7 @@ class MEDAEnv():
 		self.b_random = b_random
 		self.unmove_count = 0
 		self.step_count = 0
-		self.max_step = 5
+		self.max_step = 10
 		self.m_usage = np.zeros((l, w))
 		self.m_health = np.zeros((l, w))
 
@@ -89,11 +89,11 @@ class MEDAEnv():
 			reward = 0.5 / diagnal_param
 			self.unmove_count = 0
 		elif prev_dist == curr_dist:
-			reward = -0.3 #change 0726
+			reward = -0.5 #change 0729
 			self.unmove_count += 1
 		else:
 			self.unmove_count = 0
-			reward = -0.3 #change 0722
+			reward = -0.5 #change 0729
 		#print(self.max_step)
 		#print(self.step_count)
 		return obs, reward, done, {}
