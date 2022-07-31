@@ -51,7 +51,7 @@ if __name__ == '__main__':
 		steps_array.append(n_steps)
 
 		avg_score = np.mean(scores[-100:])
-		if (i % 100 == 0):
+		if (i % 1000 == 0):
 			print('epsode ', i, 'average score %.1f best score %.1f epsilon %.2f' % (avg_score, best_score, agent.epsilon))
 
 		if avg_score > best_score:
