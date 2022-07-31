@@ -13,9 +13,9 @@ if __name__ == '__main__':
 	n_games = 50000
 	agent = DQNAgent(gamma=0.99, epsilon=1.0, lr=0.0001,
 					 input_dims=env.observation_space.shape,
-					 n_actions=4, mem_size=50000, eps_min=0.01,
-					 batch_size=3000, replace=1000, eps_dec=1e-6,
-					 chkpt_dir='models/', env_name='batchsize_ngames_July30')
+					 n_actions=4, mem_size=50000, eps_min=0.1,
+					 batch_size=1024, replace=1000, eps_dec=1e-6,
+					 chkpt_dir='models/', env_name='batchsize_ngames_epsilonmin_July31')
 
 	if load_checkpoint:
 		agent.load_models()
