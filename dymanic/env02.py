@@ -55,7 +55,7 @@ class MEDAEnv():
 		self.unmove_count = 0
 		self.step_count = 0
 		self.error_flag = 0
-		self.max_step = 10
+		self.max_step = 5
 		self.m_usage = np.zeros((l, w))
 		self.m_health = np.zeros((l, w))
 		self.error_next = []
@@ -85,7 +85,7 @@ class MEDAEnv():
 		prev_dist = self.m_distance[self.state[0]][self.state[1]]
 		self._update_position(action)
 		if self.error_flag == 1:
-			print("okok")
+			#print("okok")
 			curr_dist = self.m_distance[self.error_next[0]][self.error_next[1]]
 			self.error_flag = 0
 		else:
@@ -238,7 +238,7 @@ class MEDAEnv():
 		elif random.randint(1, 5) == 2 and next_p[0]!=self.goal[0] and next_p[1]!=self.goal[1]:
 			self.error_flag = 1
 			self.error_next = tuple(next_p) # revised August 1
-			print("error")
+			#print("error")
 			self.m_usage[next_p[1]][next_p[0]] += 1
 			return
 		else:
