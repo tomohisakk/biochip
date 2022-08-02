@@ -14,8 +14,8 @@ if __name__ == '__main__':
 	agent = DQNAgent(gamma=0.99, epsilon=1.0, lr=0.0001,
 					 input_dims=env.observation_space.shape,
 					 n_actions=4, mem_size=50000, eps_min=0.1,
-					 batch_size=1024, replace=1000, eps_dec=1e-6,
-					 chkpt_dir='models/', env_name='batchsize_ngames_epsilonmin_July31')
+					 batch_size=64, replace=1000, eps_dec=1e-6,
+					 chkpt_dir='models/', env_name='batchsize_August1')
 
 	if load_checkpoint:
 		agent.load_models()
@@ -50,8 +50,8 @@ if __name__ == '__main__':
 		scores.append(score)
 		steps_array.append(n_steps)
 
-		avg_score = np.mean(scores[-100:])
-		if (i % 1000 == 0):
+		avg_score = np.mean(scores)
+		if (i % 100 == 0):
 			print('epsode ', i, 'average score %.1f best score %.1f epsilon %.2f' % (avg_score, best_score, agent.epsilon))
 
 		if avg_score > best_score:

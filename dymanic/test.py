@@ -7,12 +7,12 @@ if __name__ == '__main__':
 	env = MEDAEnv(w=8, l=8)
 	best_score = -np.inf
 	load_checkpoint = True
-	n_games = 5
+	n_games = 3
 	agent = DQNAgent(gamma=0.99, epsilon=0, lr=0.0001,
 					 input_dims=env.observation_space.shape,
 					 n_actions=4, mem_size=50000, eps_min=0,
 					 batch_size=32, replace=10000, eps_dec=5e-8,
-					 chkpt_dir='models/', env_name='ngames_batchsize_umove_reward_July29')
+					 chkpt_dir='models/', env_name='batchsize_ngames_epsilonmin_July31')
 
 	agent.load_models()
 	n_modules = 2
@@ -31,6 +31,7 @@ if __name__ == '__main__':
 			action = agent.choose_action(observation)
 			print(action)
 			observation_, reward, done, _ = env.step(action)
+			print(reward)
 			score += reward
 			observation = observation_
 			print(observation)

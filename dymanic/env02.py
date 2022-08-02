@@ -54,9 +54,11 @@ class MEDAEnv():
 		self.b_random = b_random
 		self.unmove_count = 0
 		self.step_count = 0
+		self.error_flag = 0
 		self.max_step = 10
 		self.m_usage = np.zeros((l, w))
 		self.m_health = np.zeros((l, w))
+		self.error_next = []
 
 		if b_random:
 			self.state, self.goal = self._random_sart_n_end()
@@ -68,12 +70,26 @@ class MEDAEnv():
 		self.m_distance = self._compute_dist()
 		self.obs = self._get_obs()
 
+
+	def _get_dist(x, y):
+		y = self.state[0]
+		x = self.state[1]
+		#print(self.m_distance)
+		return self.m_distance[y][x]
+
 	def step(self, action):
 		done = False
 		self.step_count += 1
-		prev_dist = self._get_dist()
+#		print(self.m_distance)
+#		print(self.state[0])
+		prev_dist = self.m_distance[self.state[0]][self.state[1]]
 		self._update_position(action)
-		curr_dist = self._get_dist()
+		if self.error_flag == 1:
+			print("okok")
+			curr_dist = self.m_distance[self.error_next[0]][self.error_next[1]]
+			self.error_flag = 0
+		else:
+			curr_dist = self.m_distance[self.state[0]][self.state[1]]
 		#print("prev_dist:", prev_dist)
 		#print("curent_dist:", curr_dist)
 		obs = self._get_obs()
@@ -82,24 +98,25 @@ class MEDAEnv():
 			reward = 1.0 / diagnal_param
 			done = True
 		elif self.unmove_count > self.max_step:
-			reward = -0.8
+			reward = -1.0
 			self.unmove_count = 0
 			done = True
 		elif prev_dist > curr_dist:
 			reward = 0.5 / diagnal_param
 			self.unmove_count = 0
 		elif prev_dist == curr_dist:
-			reward = -0.5 #change 0729
+			reward = -0.8 #change 0729
 			self.unmove_count += 1
 		else:
 			self.unmove_count = 0
-			reward = -0.5 #change 0729
+			reward = -0.8 #change 0729
 		#print(self.max_step)
 		#print(self.step_count)
 		return obs, reward, done, {}
 
 	def reset(self, n_modules):
 		self.step_count = 0
+		self.error_flag = 0
 		if self.b_random is True:
 			self.state, self.goal = self._random_sart_n_end()
 		else:
@@ -190,11 +207,6 @@ class MEDAEnv():
 		end = self.goal
 		return start, end
 
-	def _get_dist(self):
-		y = self.state[0]
-		x = self.state[1]
-		#print(self.m_distance)
-		return self.m_distance[y][x]
 
 	def _update_position(self, action):
 		next_p = list(self.state)
@@ -223,7 +235,10 @@ class MEDAEnv():
 			return
 		elif self._is_touching_module(next_p, action):
 			return 
-		elif random.randint(1, 10) == 5 and next_p[0]!=self.goal[0] and next_p[1]!=self.goal[1]:
+		elif random.randint(1, 5) == 2 and next_p[0]!=self.goal[0] and next_p[1]!=self.goal[1]:
+			self.error_flag = 1
+			self.error_next = tuple(next_p) # revised August 1
+			print("error")
 			self.m_usage[next_p[1]][next_p[0]] += 1
 			return
 		else:
