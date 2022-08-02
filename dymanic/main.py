@@ -10,12 +10,12 @@ if __name__ == '__main__':
 	env = MEDAEnv(w=8, l=8)
 	best_score = -np.inf
 	load_checkpoint = False
-	n_games = 50000
+	n_games = 70000
 	agent = DQNAgent(gamma=0.99, epsilon=1.0, lr=0.0001,
 					 input_dims=env.observation_space.shape,
-					 n_actions=4, mem_size=50000, eps_min=0.1,
-					 batch_size=64, replace=1000, eps_dec=1e-6,
-					 chkpt_dir='models/', env_name='batchsize_August1')
+					 n_actions=4, mem_size=50000, eps_min=0.01,
+					 batch_size=1024, replace=1000, eps_dec=1e-6,
+					 chkpt_dir='models/', env_name='batchsize_August3')
 
 	if load_checkpoint:
 		agent.load_models()
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
 	for i in range(n_games):
 		#print(i)
-		n_modules = randint(0,8)
+		n_modules = randint(0,2)
 		#print(n_modules)
 		done = False
 		score = 0
@@ -50,7 +50,7 @@ if __name__ == '__main__':
 		scores.append(score)
 		steps_array.append(n_steps)
 
-		avg_score = np.mean(scores)
+		avg_score = np.mean(scores[-100:])
 		if (i % 100 == 0):
 			print('epsode ', i, 'average score %.1f best score %.1f epsilon %.2f' % (avg_score, best_score, agent.epsilon))
 
